@@ -1,0 +1,94 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Django App</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    
+    <!-- NAVBAR -->
+        <!-- Navbar Start -->
+        <nav class="navbar navbar-expand-lg navbar-light navbar-custom">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <img src="{% static 'images/Roylco.png' %}" alt="" width="250" height="70">
+                  </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar" aria-controls="mynavbar" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="mynavbar">
+                    <ul class="navbar-nav me-auto ">
+                        <li class="nav-item me-3">
+                            <a class="nav-link active  fs-4" href="index.html">Home</a>
+                        </li>
+                        <li class="nav-item me-3">
+                            <a class="nav-link  fs-4" href="#">Order Entry</a>
+                        </li>
+                        <li class="nav-item me-3">
+                            <a class="nav-link  fs-4" href="#">Customer Index</a>
+                        </li>
+                        <li class="nav-item me-3">
+                            <a class="nav-link  fs-4" href="#">Product Index</a>
+                        </li>
+                        <li class="nav-item me-3">
+                            <a class="nav-link  fs-4" href="#">Tool Organizer</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Navbar End -->
+
+
+        <div class="container mt-5">
+            <!-- Message Display Area -->
+            <div class="message-display">
+                <h4>Messages</h4>
+                <div id="messageArea">
+                    <!-- Messages will be displayed here -->
+                </div>
+            </div>
+    
+            <!-- Message Input Form -->
+            <form id="messageForm">
+                <div class="mb-3">
+                    <label for="messageInput" class="form-label">Write a message</label>
+                    <textarea class="form-control" id="messageInput" rows="3" placeholder="Type your message here..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+
+
+
+        <div class="container mt-5">
+            <!-- Ongoing Orders Display Area -->
+            <div class="order-list">
+                <h4>Ongoing Orders</h4>
+                <div id="orderDisplay">
+                    <!-- Selected order will be displayed here -->
+                    <p>Please select an order from the dropdown.</p>
+                </div>
+            </div>
+    
+            <!-- Order Dropdown Form -->
+            <form id="orderForm">
+                <div class="mb-3 order-dropdown">
+                    <label for="orderSelect" class="form-label">Select an ongoing order</label>
+                    <select class="form-select" id="orderSelect" aria-label="Select an ongoing order">
+                        <option selected>Select an order</option>
+                        <!-- Options will be populated here -->
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    <!-- Bootstrap JS -->
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+</body>
+</html>

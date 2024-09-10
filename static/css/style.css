@@ -1,0 +1,57 @@
+/* home.html */
+
+
+
+.nav-link:hover {
+    background-color: #fa9d98; /* Slightly different color on hover for better UX */
+}
+
+.message-display {
+    border: 1px solid #ddd; /* Light gray border for the message area */
+    padding: 15px;
+    border-radius: 5px; /* Rounded corners */
+    background-color: #f8f9fa; /* Light background color */
+    margin-bottom: 20px; /* Space below the message area */
+}
+
+
+.order-list {
+    border: 1px solid #ddd; /* Light gray border for the order list */
+    padding: 15px;
+    border-radius: 5px; /* Rounded corners */
+    background-color: #f8f9fa; /* Light background color */
+    margin-bottom: 20px; /* Space below the order list */
+}
+.order-dropdown {
+    margin-bottom: 20px; /* Space below the dropdown */
+}
+
+/*Order Entry Page CSS */
+.form-container {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+}
+.quantity-controls {
+    display: flex;
+    align-items: center;
+}
+.quantity-controls input {
+    width: 60px;
+    text-align: center;
+}
+.quantity-controls button {
+    margin: 0 5px;
+}
+.btn-add {
+    background-color: #28a745; /* Green color */
+    color: white;
+}
+.btn-cancel {
+    background-color: #dc3545; /* Red color */
+    color: white;
+}
+
