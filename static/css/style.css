@@ -1,5 +1,22 @@
 /* home.html */
 
+#orderDisplay {
+    max-height: 200px; /* Adjust the height as needed */
+    overflow-y: auto; /* Adds a vertical scrollbar if content overflows */
+    border: 1px solid #ccc; /* Optional: adds a border around the display area */
+    padding: 10px; /* Optional: adds padding inside the display area */
+}
+
+#orderDisplay ul {
+    list-style-type: none; /* Removes default list styling */
+    padding: 0; /* Removes default padding */
+    margin: 0; /* Removes default margin */
+}
+
+#orderDisplay li {
+    padding: 5px 0; /* Adds some space between list items */
+    border-bottom: 1px solid #ddd; /* Adds a bottom border to each list item */
+}
 
 
 .nav-link:hover {
