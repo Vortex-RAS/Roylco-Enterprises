@@ -1,0 +1,40 @@
+
+{% extends 'base.html' %}
+
+
+{% load static %}
+{% block title %}Product Index{% endblock %}
+
+{% block content %}
+
+    <div class="container mt-5">
+        <h1 class="mb-4">Add New Product</h1>
+
+        <!-- Form to add a new product -->
+        <form action="submit-product.html" method="POST">
+            <div class="mb-3">
+                <label for="partCode" class="form-label">Part Code</label>
+                <input type="text" class="form-control" id="partCode" name="partCode" required>
+            </div>
+            <div class="mb-3">
+                <label for="productName" class="form-label">Product Name</label>
+                <input type="text" class="form-control" id="productName" name="productName" required>
+            </div>
+            <div class="mb-3">
+                <label for="productDetails" class="form-label">Product Details</label>
+                <textarea class="form-control" id="productDetails" name="productDetails" rows="3" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="materialUsed" class="form-label">Material Used</label>
+                <input type="text" class="form-control" id="materialUsed" name="materialUsed" required>
+            </div>
+            <!-- Submit button -->
+            <button type="submit" class="btn btn-success">Save Product</button>
+            <!-- Cancel button to go back to the product list -->
+            <a href="index.html" class="btn btn-danger">Cancel</a>
+        </form>
+    </div>
+
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    
+    {% endblock %}

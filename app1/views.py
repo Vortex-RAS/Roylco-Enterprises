@@ -12,3 +12,10 @@ def customer_index(request):
 
 def add_customer(request):
     return render(request,"add_customer.html")
+
+def product_index(request):
+    return render(request,"product_index.html")
+
+def add_product(request):
+    return render(request,"add_product.html")
+

@@ -33,3 +33,5 @@ function cancelOrder() {
     // Implement cancel action here, e.g., clear the form or redirect
     document.getElementById('orderEntryForm').reset();
 }
+
+
