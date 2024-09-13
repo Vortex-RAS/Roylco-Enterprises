@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Customer Details{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <!-- Customer Details Card -->
+    <div class="card border-0 shadow-sm">
+        <div class="card-header bg-light border-bottom">
+            <h2 class="mb-0 text-dark">Customer Details: {{ customer.name }}</h2>
+        </div>
+        <div class="card-body">
+            <!-- Actions Section -->
+            <div class="d-flex justify-content-center mb-4">
+                <a href="{% url 'customer_edit' customer.pk %}" class="btn btn-outline-secondary mx-2">Edit</a>
+
+                <a href="{% url "customer_index" %}" class="btn btn-outline-primary mx-2">View Products</a>
+            </div>
+            
+
+            <!-- Address Section -->
+            <div class="border rounded p-4 bg-light mb-4">
+                <h5 class="mb-3 font-weight-bold">Address Details</h5>
+                <p><strong class="text-muted">Name:</strong> {{ customer.name }}</p>
+                <p><strong class="text-muted">Street:</strong> {{ customer.street }}</p>
+                <p><strong class="text-muted">City:</strong> {{ customer.city }}</p>
+                <p><strong class="text-muted">Postal/ZIP:</strong> {{ customer.postal_code }}</p>
+                <p><strong class="text-muted">Phone:</strong> {{ customer.phone_number }}</p>
+                <p><strong class="text-muted">Fax:</strong> {{ customer.fax }}</p>
+                <p><strong class="text-muted">Email:</strong> {{ customer.email }}</p>
+            </div>
+
+            <!-- Back to List Button -->
+            <a href="{% url 'customer_index' %}" class="btn btn-primary mt-3">Back to List</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

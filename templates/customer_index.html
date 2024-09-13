@@ -3,6 +3,130 @@
 {% block title %}Customer Index{% endblock %}
 
 {% block content %}
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h1 class="h3 mb-0">Customer Index</h1>
+            <a href="#" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#addCustomerModal">Add Customer</a>
+        </div>
+        <div class="card-body">
+            <!-- Search Bar -->
+            <form method="GET" action="{% url 'customer_index' %}" class="form-inline mb-4">
+                <div class="input-group w-100">
+                    <input type="text" name="search" class="form-control" 
+                           placeholder="Search by name, email, or ID" 
+                           aria-label="Search" value="{{ search_query }}">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
+                </div>
+            </form>
+            
 
+            <!-- Customer Table -->
+            <div class="table-responsive">
+                <table class="table table-hover table-striped align-middle">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Customer ID</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Phone Number</th>
+                            <th scope="col">City</th>
+                            <th scope="col" class="text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for customer in customers %}
+                        <tr>
+                            <td>{{ customer.name }}</td>
+                            <td>{{ customer.customer_id }}</td>
+                            <td>{{ customer.email }}</td>
+                            <td>{{ customer.phone_number }}</td>
+                            <td>{{ customer.city }}</td>
+                            <td class="text-center">
+                                <a href="{% url 'customer_detail' customer.id %}" class="btn btn-outline-primary mr-2">View</a>
+                                <a href="{% url "customer_edit" customer.id %}" class="btn btn-outline-secondary mr-2">Edit</a>
+                                <form action="{% url 'customer_delete' customer.pk %}" method="POST" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-outline-danger">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6" class="text-center text-muted">No customers found.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Adding New Customer -->
+<div class="modal fade" id="addCustomerModal" tabindex="-1" aria-labelledby="addCustomerModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addCustomerModalLabel">Add New Customer</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{% url 'customer_index' %}">
+                    {% csrf_token %}
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form.name.label_tag }}
+                            {{ form.name }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            {{ form.customer_id.label_tag }}
+                            {{ form.customer_id }}
+                        </div>
+                    </div>
+            
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form.email.label_tag }}
+                            {{ form.email }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            {{ form.phone_number.label_tag }}
+                            {{ form.phone_number }}
+                        </div>
+                    </div>
+            
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form.city.label_tag }}
+                            {{ form.city }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            {{ form.street.label_tag }}
+                            {{ form.street }}
+                        </div>
+                    </div>
+            
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form.postal_code.label_tag }}
+                            {{ form.postal_code }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            {{ form.fax.label_tag }}
+                            {{ form.fax }}
+                        </div>
+                    </div>
+            
+                    <button type="submit" class="btn btn-primary">Add Customer</button>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+</div>
 
 {% endblock %}

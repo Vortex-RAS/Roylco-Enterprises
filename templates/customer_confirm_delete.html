@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Confirm Deletion{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card border-0 shadow-sm">
+        <div class="card-header bg-light border-bottom">
+            <h2 class="mb-0 text-dark">Confirm Deletion</h2>
+        </div>
+        <div class="card-body">
+            <p>Are you sure you want to delete the customer "{{ customer.name }}"?</p>
+            <form action="{% url 'customer_delete' customer.pk %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-danger">Confirm Deletion</button>
+                <a href="{% url 'customer_detail' customer.pk %}" class="btn btn-secondary ml-2">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

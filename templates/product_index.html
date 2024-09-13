@@ -1,41 +1,90 @@
-
 {% extends 'base.html' %}
 
-
-{% load static %}
 {% block title %}Product Index{% endblock %}
 
 {% block content %}
-
 <div class="container mt-5">
-    <h1 class="mb-4">Product List</h1>
+    <div class="d-flex justify-content-between mb-4">
+        <h2 class="text-dark">Product Index</h2>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductModal">
+            Add New Product
+        </button>
+    </div>
 
-    <!-- Button to add a new product -->
-    <a href="{% url "add_product" %}" class="btn btn-primary mb-3">Add New Product</a>
-
-    <!-- Table for displaying product details -->
-    <table class="table table-bordered">
-        <thead class="table-dark">
+    <!-- Product Table -->
+    <table class="table table-striped">
+        <thead>
             <tr>
                 <th>Part Code</th>
                 <th>Part Name</th>
-                <th>View Details</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            <!-- Example row, you can dynamically generate these rows with JavaScript -->
+            {% for product in products %}
             <tr>
-                <td>PC001</td>
-                <td>Product A</td>
-                <td><a href="#" class="btn btn-info">View Details</a></td>
+                <td>{{ product.part_code }}</td>
+                <td>{{ product.part_name }}</td>
+                <td>
+                    <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#viewProductModal{{ product.id }}">
+                        View Details
+                    </button>
+                </td>
             </tr>
-            <tr>
-                <td>PC002</td>
-                <td>Product B</td>
-                <td><a href="#" class="btn btn-info">View Details</a></td>
-            </tr>
+
+            <!-- View Product Modal -->
+            <div class="modal fade" id="viewProductModal{{ product.id }}" tabindex="-1" aria-labelledby="viewProductModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="viewProductModalLabel">Product Details: {{ product.part_name }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p><strong>Part Code:</strong> {{ product.part_code }}</p>
+                            <p><strong>Part Name:</strong> {{ product.part_name }}</p>
+                            <p><strong>Product Details:</strong> {{ product.details }}</p>
+                            <p><strong>Material Used:</strong> {{ product.material_used }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
         </tbody>
     </table>
-</div>
 
+    <!-- Add Product Modal -->
+    <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addProductModalLabel">Add New Product</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="{% url 'add_product' %}">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="part_code" class="form-label">Part Code</label>
+                            <input type="text" class="form-control" id="part_code" name="part_code" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="part_name" class="form-label">Part Name</label>
+                            <input type="text" class="form-control" id="part_name" name="part_name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="details" class="form-label">Product Details</label>
+                            <textarea class="form-control" id="details" name="details" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="material_used" class="form-label">Material Used</label>
+                            <input type="text" class="form-control" id="material_used" name="material_used" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Product</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
