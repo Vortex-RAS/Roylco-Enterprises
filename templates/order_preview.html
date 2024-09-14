@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}Order Preview - Bill{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card border-0 shadow-sm">
+        <div class="card-header bg-light border-bottom">
+            <h2 class="mb-0 text-dark">Order Preview: PO Number {{ order.po_number }}</h2>
+        </div>
+        <div class="card-body">
+            <!-- Customer Info -->
+            <div class="mb-4">
+                <h4>Customer Information</h4>
+                <p><strong>Name:</strong> {{ order.customer.name }}</p>
+                <p><strong>Phone:</strong> {{ order.customer.phone_number }}</p>
+                <p><strong>Email:</strong> {{ order.customer.email }}</p>
+                <p><strong>Ship-to Address:</strong> {{ order.ship_to_address.street }}, {{ order.ship_to_address.city }}</p>
+            </div>
+
+            <!-- Order Info -->
+            <div class="mb-4">
+                <h4>Order Information</h4>
+                <p><strong>PO Number:</strong> {{ order.po_number }}</p>
+                <p><strong>Due Date:</strong> {{ order.due_date }}</p>
+                <p><strong>Status:</strong> {{ order.get_status_display }}</p>
+            </div>
+
+            <!-- Products in the Order -->
+            <h4>Product Details</h4>
+            <table class="table table-bordered">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Part Code</th>
+                        <th>Product Name</th>
+                        <th>Quantity</th>
+                        <th>Material Used</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in products %}
+                    <tr>
+                        <td>{{ product.product.part_code }}</td>
+                        <td>{{ product.product.part_name }}</td>
+                        <td>{{ product.quantity }}</td>
+                        <td>{{ product.product.material_used }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <!-- Summary or Footer Section -->
+            <div class="mt-4">
+                <h4>Notes</h4>
+                <p>{{ order.work_orders.first.employee_notes }}</p>
+            </div>
+
+            <!-- Buttons to perform other actions -->
+            <div class="mt-4">
+                <a href="{% url 'order_entry' %}" class="btn btn-secondary">Back to Orders</a>
+                <a href="{% url 'order_preview_pdf' order.pk %}" class="btn btn-primary">Print</a>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

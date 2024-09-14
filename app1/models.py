@@ -34,15 +34,13 @@ class CustomerProduct(models.Model):
     def __str__(self):
         return f"{self.customer.name} - {self.product.part_name}"
 
-# Order Model
-# Order Model
+# Order Model# Order Model
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='orders')
     po_number = models.CharField(max_length=100, unique=True)
-    part_code = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField()
     due_date = models.DateField()
-    ship_to_address = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, related_name='ship_orders')
+    ship_to_address = models.CharField(max_length=255, blank=True, null=True)  # Ship-to address as a text field
+
     status_choices = [
         ('In Progress', 'In Progress'),
         ('Completed', 'Completed')
@@ -51,6 +49,15 @@ class Order(models.Model):
 
     def __str__(self):
         return f"PO Number: {self.po_number} - {self.status}"
+
+# OrderProduct Model for associating products with an order
+class OrderProduct(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='order_products')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField()
+
+    def __str__(self):
+        return f"{self.product.part_name} - {self.quantity} units"
 
 # WorkOrder Model
 class WorkOrder(models.Model):

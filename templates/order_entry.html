@@ -1,47 +1,59 @@
 {% extends 'base.html' %}
 
-{% block title %}Add New Customer{% endblock %}
+{% block title %}Order Entry{% endblock %}
 
 {% block content %}
-    <div class="container mt-5">
-        <div class="form-container">
-            <h2 class="text-center">Order Entry</h2>
-            <form id="orderEntryForm">
-                <div class="mb-3">
-                    <label for="customerName" class="form-label">Customer Name</label>
-                    <input type="text" class="form-control" id="customerName" required>
-                </div>
-                <div class="mb-3">
-                    <label for="poNumber" class="form-label">PO Number</label>
-                    <input type="text" class="form-control" id="poNumber" required>
-                </div>
-                <div class="mb-3">
-                    <label for="dueDate" class="form-label">Due Date</label>
-                    <input type="date" class="form-control" id="dueDate" required>
-                </div>
-                <div class="mb-3">
-                    <label for="partCode" class="form-label">Part Code</label>
-                    <input type="text" class="form-control" id="partCode" required>
-                </div>
-                <div class="mb-3 quantity-controls">
-                    <label for="quantity" class="form-label me-2">Quantity</label>
-                    
-                    <input type="number" class="form-control" id="quantity" value="1" min="1" required>
-                    
-                </div>
-                <div class="mb-3">
-                    <label for="shippingAddress" class="form-label">Ship To Address</label>
-                    <select class="form-select" id="shippingAddress" required>
-                        <option selected>Select an address</option>
-                        <!-- Options will be populated here -->
-                        <option value="1">123 Main St, City, State</option>
-                        <option value="2">456 Elm St, City, State</option>
-                        <option value="3">789 Oak St, City, State</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn btn-add">Add to Order</button>
-                <button type="button" class="btn btn-cancel" onclick="cancelOrder()">Cancel</button>
-            </form>
+<div class="container mt-5">
+    <h2 class="text-dark">Order Entry</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="customer" class="form-label">Customer’s Name</label>
+                {{ order_form.customer }}
+            </div>
+            <div class="col-md-6">
+                <label for="po_number" class="form-label">PO Number</label>
+                {{ order_form.po_number }}
+            </div>
         </div>
-    </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="due_date" class="form-label">Due Date</label>
+                {{ order_form.due_date }}
+            </div>
+            <div class="col-md-6">
+                <label for="ship_to_address" class="form-label">Ship-to Address</label>
+                {{ order_form.ship_to_address }}
+            </div>
+        </div>
+
+        <h4 class="mt-4">Add Products</h4>
+        <div class="mb-3">
+            {{ product_formset.management_form }}
+            {% for form in product_formset %}
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="product" class="form-label">Part Code</label>
+                        {{ form.product }}
+                    </div>
+                    <div class="col-md-6">
+                        <label for="quantity" class="form-label">Quantity</label>
+                        {{ form.quantity }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Add Order</button>
+
+        {# Only display the Preview button after the order has been saved and has a valid pk #}
+        {% if order_form.instance.pk %}
+            <a href="{% url 'order_preview' order_form.instance.pk %}" class="btn btn-secondary ml-2">Preview Work Order Sheet</a>
+        {% endif %}
+    </form>
+</div>
 {% endblock %}

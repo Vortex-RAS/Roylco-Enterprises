@@ -1,5 +1,5 @@
 from django import forms
-from .models import Customer, Product
+from .models import Customer, Order, OrderProduct, Product
 
 class CustomerForm(forms.ModelForm):
     class Meta:
@@ -40,4 +40,25 @@ class ProductForm(forms.ModelForm):
             'part_name': forms.TextInput(attrs={'class': 'form-control'}),
             'details': forms.Textarea(attrs={'class': 'form-control'}),
             'material_used': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+        
+
+class OrderForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = ['customer', 'po_number', 'due_date', 'ship_to_address']
+        widgets = {
+            'customer': forms.Select(attrs={'class': 'form-control'}),
+            'po_number': forms.TextInput(attrs={'class': 'form-control'}),
+            'due_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'ship_to_address': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+class OrderProductForm(forms.ModelForm):
+    class Meta:
+        model = OrderProduct
+        fields = ['product', 'quantity']
+        widgets = {
+            'product': forms.Select(attrs={'class': 'form-control'}),
+            'quantity': forms.NumberInput(attrs={'class': 'form-control'}),
         }

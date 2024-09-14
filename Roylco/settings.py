@@ -25,10 +25,10 @@ SECRET_KEY = 'django-insecure-lgo2i#aq1)lqw(u76%(mo752a#y20oe1gc7w9uqms#h^!lag5y
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.vercel.app','*']
 
 
-# Application definition
+# Application definition Roylco@2024@canada
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -75,14 +75,23 @@ WSGI_APPLICATION = 'Roylco.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres.mcvwsmqbekodvhkucaqu',
+        'PASSWORD': 'Roylco@2024@canada',
+        'HOST': 'aws-0-ap-south-1.pooler.supabase.com',
+        'PORT': 6543,
     }
 }
-
-
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 

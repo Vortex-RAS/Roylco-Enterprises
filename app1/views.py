@@ -1,17 +1,49 @@
+from django.forms import modelformset_factory
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from app1.forms import CustomerEditForm, CustomerForm, ProductForm
-from app1.models import Customer, Product
+from app1.forms import CustomerEditForm, CustomerForm, OrderForm, OrderProductForm, ProductForm
+from app1.models import Customer, Order, OrderProduct, Product
 from django.db.models import Q
+from django.template.loader import get_template
+from xhtml2pdf import pisa
 
 # Create your views here.
 def home(request):
     return render(request,"home.html")
 
 def order_entry(request):
-    return render(request,"order_entry.html")
+    OrderProductFormSet = modelformset_factory(OrderProduct, form=OrderProductForm, extra=1)
+
+    if request.method == 'POST':
+        order_form = OrderForm(request.POST)
+        product_formset = OrderProductFormSet(request.POST, queryset=OrderProduct.objects.none())
+
+        if order_form.is_valid() and product_formset.is_valid():
+            order = order_form.save()
+            for product_form in product_formset:
+                product = product_form.save(commit=False)
+                product.order = order
+                product.save()
+
+            return redirect('order_preview', pk=order.pk)
+    else:
+        order_form = OrderForm()
+        product_formset = OrderProductFormSet(queryset=OrderProduct.objects.none())
+
+    return render(request, 'order_entry.html', {
+        'order_form': order_form,
+        'product_formset': product_formset,
+    })
 
 
+def order_preview(request, pk):
+    order = get_object_or_404(Order, pk=pk)
+    products = order.order_products.all()  # Fetch related order products
 
+    return render(request, 'order_preview.html', {
+        'order': order,
+        'products': products,
+    })
 def customer_detail(request, id):
     customer = get_object_or_404(Customer, pk=id)
     return render(request, 'customer_detail.html', {'customer': customer})
@@ -78,3 +110,30 @@ def add_product(request):
         form = ProductForm()
     return render(request, 'product_index.html', {'form': form})
 
+
+
+def order_preview_pdf(request, pk):
+    # Fetch the order data (e.g., from the database)
+    order = Order.objects.get(pk=pk)
+    products = order.order_products.all()  # Fetch related order products
+
+    print(order)
+
+    # Use the template to render HTML content
+    template_path = 'order_preview_pdf.html'  # The template for PDF rendering
+    context = {'order': order,'products':products}
+    template = get_template(template_path)
+    html = template.render(context)
+
+    # Create a PDF response
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="Order_{order.po_number}.pdf"'
+
+    # Convert the HTML to PDF
+    pisa_status = pisa.CreatePDF(html, dest=response)
+
+    # If there's an error in conversion, return an error response
+    if pisa_status.err:
+        return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    
+    return response

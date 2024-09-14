@@ -1,4 +1,27 @@
 /* home.html */
+/* Add this to your custom CSS or in the <style> tag */
+.table-bordered {
+    border: 1px solid #dee2e6;
+}
+
+.table thead th {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.card-header {
+    background-color: #f1f1f1;
+    font-weight: bold;
+}
+
+.card-body p {
+    margin: 0 0 10px;
+}
+
+h4 {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
 
 #orderDisplay {
     max-height: 200px; /* Adjust the height as needed */

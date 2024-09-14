@@ -1,0 +1,152 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 10px 0;
+            background-color: #4CAF50;
+            color: white;
+        }
+        h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+        p {
+            margin: 5px 0;
+            font-size: 16px;
+        }
+        .order-info, .customer-info {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .order-info h2, .customer-info h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .info-table th, .info-table td {
+            text-align: left;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .info-table th {
+            background-color: #f2f2f2;
+            font-size: 16px;
+        }
+        .order-summary {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .order-summary h2 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        .order-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .order-table th, .order-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        .order-table th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .total {
+            text-align: right;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="{% static 'images/Roylco.png' %}" alt="" width="250" height="70">
+        <h1>Order Preview</h1>
+    </div>
+
+    <div class="order-info">
+        <h2>Order Details</h2>
+        <table class="info-table">
+            <tr>
+                <th>Order Number:</th>
+                <td>{{ order.po_number }}</td>
+            </tr>
+            <tr>
+                <th>Order Status:</th>
+                <td>{{ order.status }}</td>
+            </tr>
+            <tr>
+                <th>Due Date:</th>
+                <td>{{ order.due_date }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="customer-info">
+        <h2>Customer Information</h2>
+        <table class="info-table">
+            <tr>
+                <th>Customer Name:</th>
+                <td>{{ order.customer.name }}</td>
+            </tr>
+            <tr>
+                <th>Address:</th>
+                <td>{{ order.customer.street }}, {{ order.customer.city }}, {{ order.customer.postal_code }}</td>
+            </tr>
+            <tr>
+                <th>Phone Number:</th>
+                <td>{{ order.customer.phone_number }}</td>
+            </tr>
+            <tr>
+                <th>Email:</th>
+                <td>{{ order.customer.email }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="order-summary">
+        <h2>Order Summary</h2>
+        <table class="order-table">
+            <tr>
+                <th>Part Code</th>
+                <th>Part Name</th>
+                <th>Material Used</th>
+                <th>Quantity</th>
+            </tr>
+            {% for order_product in products %}
+            <tr>
+                <td>{{ order_product.product.part_code }}</td>
+                <td>{{ order_product.product.part_name }}</td>
+                <td>{{ order_product.product.material_used }}</td>
+                <td>{{ order_product.quantity }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>
