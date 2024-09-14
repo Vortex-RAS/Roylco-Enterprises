@@ -16,6 +16,7 @@
 - **Product Management**: Implemented features for listing products, viewing product details in a modal, and adding new products.
 - **Customer Management**: Updated customer details management, including the addition of a customer edit view and the integration of modals for viewing and editing customer information.
 
+<<<<<<< HEAD
 ## R4 - Order Management and PDF Generation
 
 - **Order Management**: Developed functionalities for managing orders, including viewing order details and tracking ongoing orders.
@@ -23,3 +24,5 @@
 - A view (`order_preview_pdf`) that retrieves order details and related products.
 - An HTML template (`order_preview_pdf.html`) with a styled layout for the PDF.
 - Deployed in Vercel.
+=======
+>>>>>>> d3192da910650029685a297de6322c9606285584
