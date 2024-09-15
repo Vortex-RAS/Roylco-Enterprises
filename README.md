@@ -24,5 +24,9 @@
 - A view (`order_preview_pdf`) that retrieves order details and related products.
 - An HTML template (`order_preview_pdf.html`) with a styled layout for the PDF.
 - Deployed in Vercel.
-=======
+
+## R5 - Customized Product Index and Order Index 
+
+- **Added edit, delete in Product Index
+- **Added Order Index
 

@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}Order Index{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="d-flex justify-content-between mb-4">
+        <h2 class="text-dark">Order Index</h2>
+    </div>
+
+    <!-- Order Table -->
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Customer</th>
+                <th>PO Number</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in orders_with_products %}
+            <tr>
+                <td>{{ item.order.customer }}</td>
+                <td>{{ item.order.po_number }}</td>
+                <td>
+                    <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#viewOrderModal{{ item.order.id }}">
+                        View Details
+                    </button>
+                </td>
+            </tr>
+
+            <!-- View Order Modal -->
+            <div class="modal fade" id="viewOrderModal{{ item.order.id }}" tabindex="-1" aria-labelledby="viewOrderModalLabel{{ item.order.id }}" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="viewOrderModalLabel{{ item.order.id }}">Order Details: {{ item.order.po_number }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p><strong>Customer:</strong> {{ item.order.customer }}</p>
+                            <p><strong>PO Number:</strong> {{ item.order.po_number }}</p>
+                            <p><strong>Due Date:</strong> {{ item.order.due_date }}</p>
+                            <p><strong>Ship-to Address:</strong> {{ item.order.ship_to_address }}</p>
+                            <p><strong>Status:</strong> {{ item.order.status }}</p>
+
+                            <!-- Display related products -->
+                            <h6 class="mt-4">Products</h6>
+                            <ul>
+                                {% for product in item.order_products %}
+                                <li>{{ product.product.part_name }} - {{ product.quantity }} units</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

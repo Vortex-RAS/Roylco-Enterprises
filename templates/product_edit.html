@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Product{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card border-0 shadow-sm">
+        <div class="card-header bg-light border-bottom">
+            <h2 class="mb-0 text-dark">Edit Product: {{ product.name }}</h2>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                <div class="row">
+                    <!-- Left Column -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {{ form.part_code.label_tag }}
+                            {{ form.part_code }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.part_name.label_tag }}
+                            {{ form.part_name }}
+                        </div>
+                    </div>
+                    
+                    <!-- Right Column -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {{ form.details.label_tag }}
+                            {{ form.details }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.material_used.label_tag }}
+                            {{ form.material_used }}
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
+                <a href="{% url 'product_index' %}" class="btn btn-secondary mt-3 ml-2">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

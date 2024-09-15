@@ -155,21 +155,16 @@
         <h4>Ongoing Orders</h4>
         <div id="orderDisplay">
             <ul>
-                <li>Tesla</li>
-                <li>Apple</li>
-                <li>Google</li>
-                <li>Microsoft</li>
-                <li>Amazon</li>
-                <li>Facebook</li>
-                <li>Netflix</li>
-                <li>Intel</li>
-                <li>NVIDIA</li>
-                <li>Adobe</li>
-                <!-- Add more company names as needed -->
+                {% for order in orders %}
+                <li>Customer : {{ order.customer.name }} -------->  Order Number : {{ order.po_number }}</li>
+                {% empty %}
+                <li>No ongoing orders</li>
+                {% endfor %}
             </ul>
         </div>
     </div>
 </div>
+
 
 
 <!-- Bootstrap Modal for Message Input -->

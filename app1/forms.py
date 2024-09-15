@@ -31,6 +31,17 @@ class CustomerEditForm(forms.ModelForm):
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
         }
 
+class ProductEditForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ['part_code', 'part_name', 'details', 'material_used']
+        widgets = {
+            'part_code': forms.TextInput(attrs={'class': 'form-control'}),
+            'part_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'details': forms.Textarea(attrs={'class': 'form-control'}),
+            'material_used': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product

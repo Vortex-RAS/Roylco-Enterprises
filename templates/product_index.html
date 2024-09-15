@@ -29,6 +29,11 @@
                     <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#viewProductModal{{ product.id }}">
                         View Details
                     </button>
+                    <a href="{% url "product_edit" product.id %}" class="btn btn-outline-secondary mr-2">Edit</a>
+                    <form action="{% url 'product_delete' product.pk %}" method="POST" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-danger">Delete</button>
+                    </form>
                 </td>
             </tr>
 

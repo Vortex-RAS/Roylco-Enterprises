@@ -1,34 +1,58 @@
 from django.forms import modelformset_factory
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from app1.forms import CustomerEditForm, CustomerForm, OrderForm, OrderProductForm, ProductForm
+from app1.forms import CustomerEditForm, CustomerForm, OrderForm, OrderProductForm, ProductEditForm, ProductForm
 from app1.models import Customer, Order, OrderProduct, Product
 from django.db.models import Q
 from django.template.loader import get_template
 from xhtml2pdf import pisa
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 def home(request):
-    return render(request,"home.html")
-
+    orders = Order.objects.all()
+    return render(request,"home.html",{"orders":orders})
+@csrf_exempt
 def order_entry(request):
     OrderProductFormSet = modelformset_factory(OrderProduct, form=OrderProductForm, extra=1)
+
+    # Debug: Check request method
+    print(f"Request method: {request.method}")
 
     if request.method == 'POST':
         order_form = OrderForm(request.POST)
         product_formset = OrderProductFormSet(request.POST, queryset=OrderProduct.objects.none())
 
+        # Debug: Print POST data and check form validity
+        print(f"POST data: {request.POST}")
+        print(f"Order form valid: {order_form.is_valid()}")
+        print(f"Product formset valid: {product_formset.is_valid()}")
+
         if order_form.is_valid() and product_formset.is_valid():
             order = order_form.save()
+
+            # Debug: Print saved order details
+            print(f"Saved Order: {order}")
+
             for product_form in product_formset:
                 product = product_form.save(commit=False)
                 product.order = order
                 product.save()
 
+                # Debug: Print saved product details
+                print(f"Saved Product: {product}")
+
             return redirect('order_preview', pk=order.pk)
+        else:
+            # Debug: Print form errors if validation fails
+            print(f"Order form errors: {order_form.errors}")
+            print(f"Product formset errors: {product_formset.errors}")
     else:
         order_form = OrderForm()
         product_formset = OrderProductFormSet(queryset=OrderProduct.objects.none())
+
+    # Debug: Indicate rendering the order entry page
+    print("Rendering order entry page")
 
     return render(request, 'order_entry.html', {
         'order_form': order_form,
@@ -99,7 +123,40 @@ def product_index(request):
     products = Product.objects.all()
     return render(request, 'product_index.html', {'products': products})
 
+def order_index(request):
+    orders = Order.objects.all()
 
+    # Create a list to store order products for each order
+    orders_with_products = []
+    for order in orders:
+        order_products = order.order_products.all()  # Get related products
+        orders_with_products.append({
+            'order': order,
+            'order_products': order_products
+        })
+
+    return render(request, 'order_index.html', {'orders_with_products': orders_with_products})
+
+def product_edit(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    
+    if request.method == 'POST':
+        form = ProductEditForm(request.POST, instance=product)
+        if form.is_valid():
+            form.save()
+            return redirect('product_index')  # Ensure this matches your URL pattern name
+    else:
+        form = ProductEditForm(instance=product)
+    
+    return render(request, 'product_edit.html', {'form': form, 'product': product})
+
+def product_delete(request, pk):
+    print(pk)
+    product = get_object_or_404(Product, pk=pk)
+    if request.method == 'POST':
+        product.delete()
+        return redirect('product_index') 
+    
 def add_product(request):
     if request.method == 'POST':
         form = ProductForm(request.POST)
